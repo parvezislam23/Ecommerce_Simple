@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Navbar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  <nav class="bg-white p-4 fixed top-0 w-full z-50 shadow">
+    <div class="px-4 sm:px-6 lg:px-28 mx-auto flex items-center justify-between">
+      <!-- Mobile Menu Icon (left-aligned on small screens) -->
+      <div class="block md:hidden flex-shrink-0">
+        <button id="menu-btn" class="text-black focus:outline-none">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+          </svg>
+        </button>
+      </div>
+  
+      <!-- Logo and Links container -->
+      <div class="flex items-center justify-between w-full">
+        <!-- Logo -->
+        <div class="text-gray-600 border border-gray-200 shadow-lg text-2xl h-10 font-bold">
+          <a class="px-5" href="#">BUYVENTURE</a>
+        </div>
+  
+        <!-- Links (centered on md and larger screens) -->
+        <div class="hidden md:flex md:flex-grow justify-center space-x-12 text-black">
+          <a href="{% url 'home' %}" class="py-2 text-lg">Home</a>
+          <a href="{% url 'store' %}" class="py-2 text-lg">Shop</a>
+          <a href="#" class="py-2 text-lg">About Us</a>
+          <a href="#" class="py-2 text-lg">Blog</a>
+          <a href="#" class="py-2 text-lg">Contact</a>
+        </div>
+  
+        <!-- Cart Icon (right-aligned on all screen sizes) -->
+        <div class="text-black relative mt-2">
+          <button id="cart-btn" class="relative inline-flex items-center">
+            <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+              <path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M80,176a16,16,0,0,0-16,16V408c0,30.24,25.76,56,56,56H392c30.24,0,56-24.51,56-54.75V192a16,16,0,0,0-16-16Z"/>
+              <path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M160,176V144a96,96,0,0,1,96-96h0a96,96,0,0,1,96,96v32"/>
+            </svg>
+            <div class="absolute -top-2 -right-2 inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-black border-2 border-white rounded-full">{{ cart_length }}</div>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Mobile Menu -->
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-30 hidden"></div>
+    <div id="mobile-menu" class="hidden flex-col bg-white mt-4 md:hidden space-y-4">
+      <div class="flex justify-between items-center w-full px-4">
+        <a href="#" class="text-black text-xl font-bold">BUYVENTURE</a>
+        <button id="close-btn" class="text-black focus:outline-none">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="flex flex-col items-start space-y-2 px-4">
+        <a href="{% url 'home' %}" class="text-black py-2">Home</a>
+        <a href="{% url 'store' %}" class="text-black py-2">Shop</a>
+        <a href="#" class="text-black py-2">About Us</a>
+        <a href="#" class="text-black py-2">Blog</a>
+        <a href="#" class="text-black py-2">Contact</a>
+      </div>
+    </div>
+  </nav>
+  <div class="fixed inset-x-0 bottom-0 bg-white shadow-md md:hidden flex justify-between items-center text-black p-4">
+    <!-- Home Icon -->
+    <a href="{% url 'home' %}" class="flex flex-col items-center text-sm">
+        <img class='w-10 h-10' src="https://cdn4.iconfinder.com/data/icons/rounded-black-basic-ui/139/Home01-RoundedBlack-512.png" alt="">
+        <span>Home</span>
+    </a>
+    
+    <!-- Shop Icon -->
+    <a href="{% url 'store' %}" class="flex flex-col items-center text-sm">
+      <img class='w-8 h-8 rounded-full' src="https://cdn-icons-png.flaticon.com/256/1364/1364029.png" alt="">
+        <span>Shop</span>
+    </a>
+    
+    <!-- Search Icon -->
+    <a href="#" class="flex flex-col items-center text-sm">
+        <img class='w-11 h-11' src="https://static.thenounproject.com/png/2729269-200.png" alt="">
+        <span>Search</span>
+    </a>
+    
+    <!-- Cart Icon -->
+    <a href="#" class="flex flex-col items-center text-sm relative">
+        <img class='h-8 w-8' src="https://cdn-icons-png.freepik.com/512/625/625230.png" alt="">
+        <span>Cart</span>
+        <span class="absolute -top-1 -right-2 bg-black text-white text-xs font-bold px-1 rounded-full">{{ cart_length }}</span>
+    </a>
+    
+    <!-- Wishlist Icon -->
+    <a href="#" class="flex flex-col items-center text-sm">
+       <img class='w-9 h-9' src="https://cdn-icons-png.flaticon.com/512/6839/6839987.png" alt="">
+        <span>Wishlist</span>
+        <span class="absolute -top-1 -right-2 bg-black text-white text-xs font-bold px-1 rounded-full">3</span>
+    </a>
+  </div>
+  <div id="cart-drawer" class="fixed inset-y-0 right-0 w-full bg-white shadow-lg transform translate-x-full transition-transform duration-300 md:w-[25rem] z-50">
+    <div class="p-4 flex justify-between items-center border-b">
+      <h2 class="text-2xl font-bold">Shopping Cart</h2>
+      <button id="drawer-close-btn" class="text-black focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <p class='px-4 text-xl text-gray-800'>The original products are limited</p>
+    <div class="p-4">
+        
+          <div class="flex flex-col">
+            {% for item_id, item in cart.items %}
+            <div class="flex flex-col rounded-lg bg-white sm:flex-row mb-4" data-item-id="{{ item.id }}">
+                <img class="m-2 h-24 w-28 rounded-md border object-cover object-center" src="{{ item.image }}" alt="">
+                <div class="flex w-full flex-col px-4 py-4">
+                    <span class="text-md font-bold">{{ item.title }}</span>
+                    <p class="text-lg font-bold price" data-price="{{ item.price }}">${{ item.price|floatformat:2 }}</p>
+                    <div class="sm:order-1">
+                        <div class="flex h-8 w-10 mt-5 justify-start text-gray-600">
+                            <button type="button" class="decrease flex items-center justify-center rounded-l-md bg-gray-200 text-black px-4 transition hover:bg-black hover:text-white">-</button>
+                            <input type="number" class="quantity flex w-16 items-center justify-center bg-gray-100 text-black text-xl text-center" value="{{ item.quantity }}" min="1" readonly>
+                            <button type="button" class="increase flex items-center justify-center rounded-r-md bg-gray-200 px-4 transition hover:bg-black hover:text-white">+</button>
+                            <button class="remove text-md font-bold uppercase underline mx-3" data-id="{{ item_id }}">Remove</button>
+                          </div>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            {% endfor %}
+            <!-- Display Subtotal and Total -->
+            <div class="flex justify-between items-center mt-5">
+                <p class="font-medium text-lg text-gray-700">Sub Total</p>
+                <p class="font-bold text-lg text-black total-price">${{ total_price|floatformat:2 }}</p>
+            </div>
+            <div class="flex justify-between items-center mt-5">
+                <p class="font-medium text-lg text-gray-700">Total</p>
+                <p class="font-bold text-lg text-black total-price">${{ total_price|floatformat:2 }}</p>
+            </div>
+            
+            <!-- Checkout Button -->
+            <div class="mt-5 text-center">
+                <button class="text-white bg-black text-xl font-bold py-2 px-3 rounded">
+                    Checkout
+                </button>
+            </div>
+          </div>
+    </div>
+  </div>
+  <div id="overlay-cart" class="fixed inset-0 bg-black bg-opacity-50 hidden"></div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const quantityInput = document.getElementById('quantity');
+      const increaseButton = document.getElementById('increase');
+      const decreaseButton = document.getElementById('decrease');
+  
+      increaseButton.addEventListener('click', function() {
+        let currentQuantity = parseInt(quantityInput.value);
+        quantityInput.value = currentQuantity + 1; // Increment the quantity
+      });
+  
+      decreaseButton.addEventListener('click', function() {
+        let currentQuantity = parseInt(quantityInput.value);
+        if (currentQuantity > 1) {
+          quantityInput.value = currentQuantity - 1; // Decrement the quantity if greater than 1
+        }
+      });
+    });
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const cartBtn = document.getElementById('cart-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const cartDrawer = document.getElementById('cart-drawer');
+      const drawerCloseBtn = document.getElementById('drawer-close-btn');
+      const overlayCart = document.getElementById('overlay-cart');
+      const menuBtn = document.getElementById('menu-btn');
+      const closeBtn = document.getElementById('close-btn');
+  
+      // Mobile Menu Toggle
+      menuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+        overlayCart.classList.toggle('hidden');
+      });
+      closeBtn.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        overlayCart.classList.add('hidden');
+      });
+  
+      // Cart Drawer Toggle
+      cartBtn.addEventListener('click', () => {
+        cartDrawer.classList.remove('translate-x-full'); // Show the drawer
+        overlayCart.classList.remove('hidden'); // Show overlay
+      });
+  
+      // Close cart drawer when close button or overlay is clicked
+      drawerCloseBtn.addEventListener('click', closeCartDrawer);
+      overlayCart.addEventListener('click', closeCartDrawer);
+  
+      function closeCartDrawer() {
+        cartDrawer.classList.add('translate-x-full'); // Hide the drawer
+        overlayCart.classList.add('hidden'); // Hide overlay
+      }
+    });
+  </script>
+  <script>
+    document.querySelectorAll('.increase').forEach(button => {
+        button.addEventListener('click', function() {
+            const itemDiv = this.closest('[data-item-id]');
+            const quantityInput = itemDiv.querySelector('.quantity');
+            const priceElement = itemDiv.querySelector('.price');
+            const price = parseFloat(priceElement.getAttribute('data-price'));
+            let quantity = parseInt(quantityInput.value);
+
+            quantity += 1;
+            quantityInput.value = quantity;
+
+            // Update subtotal
+            const subtotal = parseFloat(document.querySelector('.total-price').textContent.replace('$', ''));
+            const newSubtotal = subtotal + price;
+            document.querySelectorAll('.total-price').forEach(el => el.textContent = `$${newSubtotal.toFixed(2)}`);
+        });
+    });
+
+    document.querySelectorAll('.decrease').forEach(button => {
+        button.addEventListener('click', function() {
+            const itemDiv = this.closest('[data-item-id]');
+            const quantityInput = itemDiv.querySelector('.quantity');
+            const priceElement = itemDiv.querySelector('.price');
+            const price = parseFloat(priceElement.getAttribute('data-price'));
+            let quantity = parseInt(quantityInput.value);
+
+            if (quantity > 1) {
+                quantity -= 1;
+                quantityInput.value = quantity;
+
+                // Update subtotal
+                const subtotal = parseFloat(document.querySelector('.total-price').textContent.replace('$', ''));
+                const newSubtotal = subtotal - price;
+                document.querySelectorAll('.total-price').forEach(el => el.textContent = `$${newSubtotal.toFixed(2)}`);
+            }
+        });
+    });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.remove').forEach(button => {
+        button.addEventListener('click', function () {
+            const itemId = this.getAttribute('data-id');
+            fetch("{% url 'cart' %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    item_id: itemId,
+                    action: 'delete'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.error) {
+                    document.querySelector(`#item-${itemId}`).remove(); // Remove item from the DOM
+                    const totalPriceElement = document.querySelector('#total-price'); 
+                    if (totalPriceElement) { 
+                        totalPriceElement.textContent = `$${data.total_price.toFixed(2)}`; // Update total price
+                    }
+                } else {
+                    console.error(data.error); // Log the error for debugging
+                }
+            });
+        });
+    });
+});
+</script>
+<script>
+  $(document).ready(function() {
+      $('#menu-btn').click(function() {
+          $('#overlay').removeClass('hidden');
+          $('#mobile-menu').removeClass('hidden');
+      });
+
+      $('#close-btn').click(function() {
+          $('#overlay').addClass('hidden');
+          $('#mobile-menu').addClass('hidden');
+      });
+
+      $('#overlay').click(function() {
+          $(this).addClass('hidden');
+          $('#mobile-menu').addClass('hidden');
+      });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,265 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="grid grid-cols-1 sm:px-5 md:px-10 lg:grid-cols-2 lg:px-20 xl:px-40 gap-10 mt-40">
+  <div class="mt-10 bg-gray-50 px-6 sm:px-8 md:px-40 lg:mt-0">
+    <h1 class="text-2xl sm:text-3xl font-bold">Billing Details</h1>
+    
+    <div>
+      <label for="name" class="mt-4 mb-2 block text-lg sm:text-xl font-bold">Full Name</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        class="w-full rounded-md border border-gray-200 px-4 py-3 text-base sm:text-lg shadow-sm outline-none focus:border-blue-500 focus:ring-blue-500"
+        placeholder="Full Name"
+      />
+      
+      <label for="contact" class="mt-4 mb-2 block text-lg sm:text-xl font-bold">Phone Number/Email</label>
+      <input
+        type="text"
+        id="contact"
+        name="contact"
+        class="w-full rounded-md border border-gray-200 px-4 py-3 text-base sm:text-lg shadow-sm outline-none focus:border-blue-500 focus:ring-blue-500"
+        placeholder="Phone Number/Email"
+      />
+
+      <label for="address" class="mt-4 mb-2 block text-lg sm:text-xl font-bold">Full Address</label>
+      <input
+        type="text"
+        id="address"
+        name="address"
+        class="w-full rounded-md border border-gray-200 px-4 py-3 text-base sm:text-lg shadow-sm outline-none focus:border-blue-500 focus:ring-blue-500"
+        placeholder="Full Address"
+      />
+
+      <label for="country" class="mt-4 mb-2 block text-lg sm:text-xl font-bold">Country</label>
+      <input
+        type="text"
+        id="country"
+        name="country"
+        class="w-full rounded-md border border-gray-200 px-4 py-3 text-base sm:text-lg shadow-sm outline-none focus:border-blue-500 focus:ring-blue-500"
+        placeholder="Country"
+      />
+    </div>
+
+    <h1 class="text-2xl sm:text-3xl font-bold mt-10">Payment Option</h1>
+    <div onclick="toggleForm()" class="flex items-center mt-6">
+      <input type="radio" id="paymentOption" name="inline-radio-group" class="w-4 h-4 text-blue-600" />
+      <label onclick="toggleForm()" for="paymentOption" class="ml-4 text-md font-bold text-black">Credit and Debit Cards</label>
+      <svg class="w-5 h-5 ml-3" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1H0V4zm0 3v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7H0zm3 2h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1a1 1 0 0 1 1-1z"/>
+      </svg>
+    </div>
+
+    <div id="paymentForm" class="flex flex-col gap-4 mt-4 hidden">
+      <div>
+        <label class="block mb-2 text-base sm:text-lg">Card Number</label>
+        <input type="text" class="w-full bg-gray-50 border border-gray-300 text-gray-900 rounded-lg p-4 placeholder:text-lg sm:placeholder:text-xl" placeholder="1234 5678 9012 3456" />
+      </div>
+
+      <div class="flex gap-5">
+        <div>
+          <label class="block mb-2 text-base sm:text-lg">Expiration Date</label>
+          <input type="text" class="w-full bg-gray-50 border border-gray-300 text-gray-900 rounded-lg p-4 placeholder:text-lg sm:placeholder:text-xl" placeholder="MM/YY" />
+        </div>
+        
+        <div>
+          <label class="block mb-2 text-base sm:text-lg">Security Code</label>
+          <input type="text" class="w-full bg-gray-50 border border-gray-300 text-gray-900 rounded-lg p-4 placeholder:text-lg sm:placeholder:text-xl" placeholder="123" />
+        </div>
+      </div>
+
+      <div>
+        <label class="block mb-2 text-base sm:text-lg">Cardholder's Name</label>
+        <input type="text" class="w-full bg-gray-50 border border-gray-300 text-gray-900 rounded-lg p-4 placeholder:text-lg sm:placeholder:text-xl" placeholder="As Written on Card" />
+      </div>
+    </div>
+    <button class="flex items-center mt-5" onclick="toggleModal()">
+      <input type="radio" id="paypal" name="inline-radio-group" class="w-4 h-4 text-blue-600" />
+      <img class='h-10 w-28' src="https://i.postimg.cc/nV6Hw7H7/logo-icon-vector-logos-icons-set-social-media-flat-banner-vectors-svg-eps-jpg-jpeg-paper-texture-glo.png" alt="">
+    </button>
+    
+  </div>
+  
+
+
+  <div id="loginModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center" onclick="closeModal(event)">
+    <div class="bg-white w-full max-w-sm rounded-lg p-6 space-y-4 shadow-lg" onclick="event.stopPropagation()">
+      <h2 class="text-xl font-semibold text-gray-700 text-center">Login</h2>
+      <input type="text" placeholder="Email or Phone Number" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      <input type="password" placeholder="Password" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      <button onclick="loginAndShowSpinner()" class="bg-sky-600 text-white w-full py-3 rounded-full font-semibold hover:bg-blue-600">
+        Login
+      </button>
+      <button onclick="loginAndShowSpinner()" class="bg-white border border-sky-600 text-black w-full py-3 rounded-full text-sky-700 font-semibold hover:bg-blue-600">
+        Sign Up
+      </button>
+    </div>
+  </div>
+  
+  <div id="loadingSpinner" class="hidden fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+    <div class="relative flex items-center justify-center">
+      <img class="w-16 h-16 rounded-full" src="https://cdn.pixabay.com/photo/2021/08/03/06/14/lock-6518557_640.png" alt="Loading Image">
+      <div class="absolute w-20 h-20 border-4 border-solid border-transparent border-t-blue-500 rounded-full animate-spin-slow"></div>
+    </div>
+  </div>
+
+  <div class="px-6 sm:px-8 md:px-40">
+    <p class="text-2xl sm:text-3xl font-bold">Order Summary</p>
+
+    <div class="mt-8 space-y-4 rounded-lg border bg-white p-4 sm:p-6">
+      {% for item_id, item in cart.items %}
+      <div 
+    id="item-{{ item_id }}" 
+    class="flex flex-row items-center justify-between rounded-lg bg-gray-100 space-x-8">
+
+    <button class="remove text-red-500 hover:text-red-700 text-2xl sm:text-xl md:text-2xl lg:text-3xl mr-2" data-id="{{ item_id }}">×</button>
+
+    <img 
+        class="h-10 w-16 sm:h-12 sm:w-20 md:h-14 md:w-20 rounded-md object-cover" 
+        src="{{ item.image }}" 
+        alt="{{ item.title }}" 
+    />
+
+    <div class="flex-grow flex flex-col">
+        <p class="text-xs sm:text-sm md:text-md font-bold">{{ item.title }}</p>
+        <p class="text-md font-bold">${{ item.price }}</p>
+    </div>
+  </div>
+
+      {% endfor %}
+    </div>
+    <form class="flex items-center max-w-lg mx-auto">   
+      <label for="voice-search" class="sr-only">Search</label>
+   
+          <input type="text" id="voice-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 ps-10 p-2.5 " placeholder="Discount Code"/>
+
+      <button type="submit" class="inline-flex items-center py-2.5 px-6 ms-2 text-md font-medium text-white bg-black rounded-md">
+          Apply
+      </button>
+  </form>
+      <div class="mt-5">
+        <div class="flex justify-between items-center">
+          <p class="font-medium text-lg text-gray-700">Sub Total</p>
+          <p class="font-bold text-lg text-black">${{ total_price|floatformat:2 }}</p>
+        </div>
+        <div class="flex justify-between items-center">
+          <p class="font-medium text-lg text-gray-700">Shipping Fee</p>
+          <p class="font-bold text-lg text-black">$ 00.00</p>
+        </div>
+        
+        <div class="flex justify-between items-center mt-5">
+          <p class="font-bold text-lg text-gray-900">Total</p>
+          <p id="total-price" class="font-bold text-2xl text-black">${{ total_price }}</p>
+        </div>
+        <div class="flex justify-between items-center">
+          <p class="font-medium text-lg text-gray-700">Dalevary Time</p>
+          <p class="font-bold text-lg text-black">2 - 4 days</p>
+        </div>
+      </div>
+
+      <div class="mt-8">
+        <button class="w-full bg-black text-white text-lg sm:text-xl font-bold py-3">Confirm Order</button>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  /* Spinner Animation */
+  .animate-spin-slow {
+      animation: spin 1.5s linear infinite;
+  }
+
+  /* Keyframes for the spinning animation */
+  @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+  }
+</style>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".remove").forEach((button) => {
+      button.addEventListener("click", function () {
+        const itemId = this.getAttribute("data-id");
+        fetch("{% url 'cart' %}", {
+          method: "POST",
+          headers: {
+            "X-CSRFToken": "{{ csrf_token }}",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            item_id: itemId,
+            action: "delete",
+          }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (!data.error) {
+              // Refresh the page to reflect the updated cart
+              window.location.reload();
+            } else {
+              console.error(data.error); // Log the error for debugging
+            }
+          });
+      });
+    });
+  });
+</script>
+<script>
+  function toggleForm() {
+    const form = document.getElementById("paymentForm");
+    form.classList.toggle("hidden");
+  }
+</script>
+<script>
+  function toggleModal() {
+    const spinner = document.getElementById('loadingSpinner');
+    const modal = document.getElementById('loginModal');
+    spinner.classList.remove('hidden');
+    setTimeout(() => {
+        spinner.classList.add('hidden');
+        modal.classList.toggle('hidden');
+    }, 2000);
+ }
+
+  function closeModal(event) {
+    const modal = document.getElementById('loginModal');
+    if (event.target === modal) {
+        modal.classList.add('hidden');
+    }
+    }
+</script>
+
+<script>
+  function toggleModal() {
+    const spinner = document.getElementById('loadingSpinner');
+    const modal = document.getElementById('loginModal');
+    spinner.classList.remove('hidden');
+    setTimeout(() => {
+      spinner.classList.add('hidden');
+      modal.classList.toggle('hidden');
+    }, 2000);
+  }
+
+  function closeModal(event) {
+    const modal = document.getElementById('loginModal');
+    if (event.target === modal) {
+      modal.classList.add('hidden');
+    }
+  }
+
+  function loginAndShowSpinner() {
+    const spinner = document.getElementById('loadingSpinner');
+    const modal = document.getElementById('loginModal');
+    modal.classList.add('hidden'); // Close modal
+    spinner.classList.remove('hidden'); // Show spinner
+
+    setTimeout(() => {
+      spinner.classList.add('hidden'); // Hide spinner after 2 seconds
+    }, 2000);
+  }
+</script>
+
+{% endblock %}
+
+
